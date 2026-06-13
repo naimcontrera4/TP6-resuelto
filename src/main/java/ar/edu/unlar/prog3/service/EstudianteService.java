@@ -1,11 +1,6 @@
 package ar.edu.unlar.prog3.service;
-
 import org.springframework.stereotype.Service;
-
 import ar.edu.unlar.prog3.clases.Estudiante;
-import ar.edu.unlar.prog3.clases.RepoEstudiantes;
-
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -34,10 +29,10 @@ public class EstudianteService {
         Comparator<Estudiante> comparadorBase = comparators.get(key);
 
         
+      
         if (comparadorBase == null) {
-            throw new IllegalArgumentException("Criterio de ordenamiento inválido o no soportado: " + sortBy);
+            throw new IllegalArgumentException(sortBy); 
         }
-
         
         Comparator<Estudiante> comparadorFinal = comparadorBase.thenComparing(Estudiante::getLegajo);
 
