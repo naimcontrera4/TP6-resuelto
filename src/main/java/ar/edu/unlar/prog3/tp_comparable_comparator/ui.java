@@ -2,7 +2,7 @@ package ar.edu.unlar.prog3.tp_comparable_comparator;
 
 import java.util.ArrayList;
 import java.util.Collections;
-
+import java.util.Comparator;
 
 import ar.edu.unlar.prog3.clases.Estudiante;
 
