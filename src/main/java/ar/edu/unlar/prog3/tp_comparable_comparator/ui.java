@@ -15,9 +15,10 @@ public class ui {
         Comparator<Estudiante>comPromedio=Comparator.comparing(Estudiante::getPromedio);
         Comparator<Estudiante>compNombre=comPromedio.thenComparing(Estudiante::getNombre);
         Comparator<Estudiante>compEdad=Comparator.comparing(Estudiante::getEdad);
-         Comparator<Estudiante>compPromedioAsc=comPromedio.reversed();
-         Comparator<Estudiante> compMateriasYNombre = Comparator.comparing(Estudiante::getMateriasAprobadas).reversed().thenComparing(Estudiante::getNombre);
-       System.out.println("--- ORDEN POR MATERIAS APROBADAS DESCENDENTE (Desempate por nombre) ---");
+        Comparator<Estudiante>compPromedioAsc=comPromedio.reversed();
+        Comparator<Estudiante> compMateriasYNombre = Comparator.comparing(Estudiante::getMateriasAprobadas).reversed().thenComparing(Estudiante::getNombre);
+       
+         System.out.println("--- ORDEN POR MATERIAS APROBADAS DESCENDENTE (Desempate por nombre) ---");
         estudiantes.sort(compMateriasYNombre); 
         for (Estudiante e : estudiantes) {
             System.out.println(e);
@@ -42,6 +43,27 @@ public class ui {
         estudiantes.sort(compPromedioAsc);
         for (Estudiante e : estudiantes) {
             System.out.println(e);
+        }
+
+        ArrayList<Estudiante> listaDePrueba = new ArrayList<>();
+        
+        listaDePrueba.add(new Estudiante("LU-MAX", "Estudiante Máximo", 8.0, Integer.MAX_VALUE, 10));
+        listaDePrueba.add(new Estudiante("LU-MIN", "Estudiante Negativo", 8.0, -1, 10));
+
+        Comparator<Estudiante> restaTramposa = (e1, e2) -> e1.getEdad() - e2.getEdad();
+
+        System.out.println("--- ORDEN CON LA RESTA TRAMPOSA ---");
+        listaDePrueba.sort(restaTramposa);
+        for (Estudiante e : listaDePrueba) {
+            System.out.println(e.getNombre() + " - Edad: " + e.getEdad());
+        }
+
+        Comparator<Estudiante> comparadorSeguro = Comparator.comparingInt(Estudiante::getEdad);
+    
+        System.out.println("\n--- ORDEN CORREGIDO CON Integer.compare() ---");
+        listaDePrueba.sort(comparadorSeguro);
+        for (Estudiante e : listaDePrueba) {
+            System.out.println(e.getNombre() + " - Edad: " + e.getEdad());
         }
     }
 }

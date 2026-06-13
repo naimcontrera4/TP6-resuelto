@@ -30,3 +30,15 @@ Relacionándolo con los principios SOLID:
 * **Principio de Abierto/Cerrado (OCP):** Una clase debe estar abierta a la extensión pero cerrada a la modificación. Si estamos atados solo a `Comparable` y el día de mañana nos piden un quinto criterio de ordenamiento, nos veríamos obligados a modificar el código fuente del método `compareTo` de la clase `Estudiante`. Esto viola el OCP, ya que el código existente debe ser tocado para agregar nueva funcionalidad.
 
 **Conclusión:** Para resolver esto sin violar los principios, el diseño correcto es mantener a `Comparable` solo para el orden natural y utilizar la interfaz externa `Comparator` para los otros 3 criterios. Esto nos permite crear nuevos comparadores (extender) sin tener que modificar la clase `Estudiante` (cerrada a la modificación).
+
+## Ejercicio 6: El anti-patrón de la resta
+
+**4. Respuesta a la Pregunta 4:**
+
+Un **overflow (desbordamiento) de enteros** ocurre cuando el resultado de una operación matemática supera el límite máximo de memoria que puede guardar el tipo de dato `int` en Java (que es 2.147.483.647). Cuando se pasa de ese límite, el número "da la vuelta" y se transforma en un número negativo enorme.
+
+El **"truco de la resta"** provoca este desbordamiento porque, al hacer `Integer.MAX_VALUE - (-1)`, la regla de los signos convierte la resta en una suma: `Integer.MAX_VALUE + 1`. Al sumarle 1 al límite máximo, se produce el overflow y el resultado da `-2147483648` (negativo).
+
+Esto rompe una parte fundamental del **contrato de Comparator**: el contrato exige que si el primer objeto es mayor que el segundo, debe devolver un número *positivo*. En este caso, el primer estudiante tiene la edad máxima y el segundo tiene `-1`, por lo que debería dar positivo. Sin embargo, por culpa del overflow devuelve un número *negativo*, mintiéndole a Java y haciéndole creer que el Estudiante Máximo es menor, lo que arruina el orden de la lista.
+
+El método **`Integer.compare()`** no sufre este problema porque internamente no realiza ninguna resta ni operación aritmética. Simplemente utiliza los operadores lógicos condicionales (`<` y `>`) para evaluar qué número es más grande y devuelve de forma directa y segura los números `-1`, `0` o `1`.
