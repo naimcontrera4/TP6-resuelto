@@ -10,3 +10,11 @@ El método `Collections.sort()` no compila porque le estamos pasando una lista d
 
 El "contrato" que Java exige y que nuestra clase no está cumpliendo es la interfaz `Comparable`. Para que el ordenamiento funcione, la clase `Estudiante` debe declarar que implementa dicha interfaz (`implements Comparable<Estudiante>`) y sobrescribir obligatoriamente el método `compareTo()`. Es dentro de ese método donde debemos definir la regla exacta para decidir cuándo un estudiante va antes o después que otro.
 
+## Ejercicio 2: Implementar Comparable<Estudiante>
+
+**3. Respuesta a la Pregunta 2:**
+Elegí el atributo `promedio` como orden natural porque el requerimiento del sistema (el enunciado) lo define como el criterio principal de "mérito académico". El "orden natural" definido por `Comparable` debe representar la forma más lógica e inherente de ordenar los objetos de esa clase por defecto.
+
+Si mañana surge un nuevo requisito para ordenar por `cantidadMateriasAprobadas`, **NO** modificaría el método `compareTo()`. 
+
+La consecuencia de modificar el `compareTo()` sería alterar el orden natural de la clase `Estudiante` a nivel global. Esto rompería o generaría bugs en todas las otras partes del sistema (pantallas, reportes, etc.) que ya dependían de que la lista se ordenara por promedio. En Java, una clase solo puede tener **un único orden natural**. Para cumplir con un nuevo requisito de ordenamiento sin afectar el código existente, la solución correcta es dejar el `compareTo()` intacto y crear un `Comparator` externo específico para las materias aprobadas.

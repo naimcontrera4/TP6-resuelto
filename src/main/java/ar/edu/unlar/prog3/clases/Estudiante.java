@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class Estudiante {
+public class Estudiante implements Comparable<Estudiante> {
 
     private String legajo;
     private String nombre;
@@ -18,6 +18,10 @@ public class Estudiante {
     @Override
     public String toString(){
         return "Legajo:"+legajo+" | Nombre: "+nombre+" | Promedio:"+promedio+" | Edad:"+edad+" | MateriasAprobadas:"+materiasAprobadas;
+    }
+    @Override
+    public int compareTo(Estudiante estudiante){
+        return Double.compare(estudiante.promedio, this.promedio);
     }
   
 }
