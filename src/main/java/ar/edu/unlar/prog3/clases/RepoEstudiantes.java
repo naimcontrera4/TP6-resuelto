@@ -22,7 +22,7 @@ public class RepoEstudiantes {
         estudiantes.add(new Estudiante("LU-2024-009", "Tomás Sosa",         6.5, 20, 12));
         estudiantes.add(new Estudiante("LU-2024-010", "Lucía Fernández",    7.8, 21, 16));
     }
-    public List<Estudiante>obEstudiantes(){
+    public List<Estudiante>obtenerEstudiantes(){
         return estudiantes;
     }
 }

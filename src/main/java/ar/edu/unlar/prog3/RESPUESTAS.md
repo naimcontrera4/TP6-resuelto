@@ -42,3 +42,17 @@ El **"truco de la resta"** provoca este desbordamiento porque, al hacer `Integer
 Esto rompe una parte fundamental del **contrato de Comparator**: el contrato exige que si el primer objeto es mayor que el segundo, debe devolver un número *positivo*. En este caso, el primer estudiante tiene la edad máxima y el segundo tiene `-1`, por lo que debería dar positivo. Sin embargo, por culpa del overflow devuelve un número *negativo*, mintiéndole a Java y haciéndole creer que el Estudiante Máximo es menor, lo que arruina el orden de la lista.
 
 El método **`Integer.compare()`** no sufre este problema porque internamente no realiza ninguna resta ni operación aritmética. Simplemente utiliza los operadores lógicos condicionales (`<` y `>`) para evaluar qué número es más grande y devuelve de forma directa y segura los números `-1`, `0` o `1`.
+
+## Ejercicio 8: Service con patrón Strategy
+
+**5. Respuesta a la Pregunta 5:**
+
+Al utilizar un `Map<String, Comparator<T>>` en lugar de una estructura condicional como `switch` o `if-else`, estamos aplicando una variante del **Patrón de diseño Strategy** (Estrategia), a menudo implementado como un *Strategy Registry* (Registro de Estrategias).
+
+**Relación con el Polimorfismo:**
+El polimorfismo nos permite tratar a distintos objetos a través de una interfaz común. En nuestro mapa, los valores son diferentes implementaciones lógicas (lambdas/method references), pero todas comparten la misma interfaz `Comparator`. Nuestro método `ordenar()` no necesita saber qué hace internamente el comparador de "edad" o el de "nombre"; gracias al polimorfismo, simplemente lo extrae del mapa y le dice "ejecutate" usando el contrato de la interfaz. Delega el comportamiento en lugar de interrogar por el tipo.
+
+**Por qué es preferible a la alternativa procedural (switch/if-else):**
+La alternativa procedural viola el principio de diseño **Abierto/Cerrado (OCP)** de SOLID. Si el día de mañana agregamos un nuevo atributo al sistema (por ejemplo, `asistencias`) y queremos permitir ordenar por él, un bloque `switch` nos obligaría a modificar el código fuente del método `ordenar()` para añadir un nuevo `case`. 
+
+Al usar el patrón Strategy con un `Map`, el método `ordenar()` queda cerrado a la modificación. Para agregar un nuevo criterio, simplemente registramos una nueva línea de código en el constructor o configuración del servicio (`comparators.put(...)`), manteniendo el núcleo de la lógica intacto, limpio y mucho más escalable.
